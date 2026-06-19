@@ -1,0 +1,223 @@
+/* ── Signup Page ─────────────────────────────────────────── */
+
+.signup-page {
+  display: flex;
+  flex-direction: column;
+  padding: 48px var(--container-margin) 40px;
+  min-height: 100dvh;
+  background: var(--surface-container-lowest);
+  gap: 0;
+  overflow-y: auto;
+}
+
+/* ── Top bar ───────────────────────────────────────────────── */
+.signup-top-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.signup-back-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--outline-variant);
+  background: var(--surface-container-low);
+  color: var(--on-surface-variant);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all var(--transition);
+}
+.signup-back-btn:hover {
+  background: var(--surface-container);
+  color: var(--on-surface);
+}
+
+/* ── Heading ───────────────────────────────────────────────── */
+.signup-heading {
+  margin-bottom: 20px;
+}
+.signup-heading h1 { color: var(--on-surface); margin-bottom: 4px; }
+.signup-sub { color: var(--on-surface-variant); }
+
+/* ── Progress bar ──────────────────────────────────────────── */
+.signup-progress-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.signup-progress-track {
+  flex: 1;
+  height: 6px;
+  background: var(--surface-container-high);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.signup-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #2563eb, #22c55e);
+  border-radius: var(--radius-full);
+  transition: width 0.4s cubic-bezier(.4, 0, .2, 1);
+}
+
+.signup-progress-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--on-surface-variant);
+  white-space: nowrap;
+  min-width: 70px;
+  text-align: right;
+}
+
+/* ── Form ──────────────────────────────────────────────────── */
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* ── Password strength ─────────────────────────────────────── */
+.pw-strength-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.pw-strength-bars {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+}
+
+.pw-strength-bar {
+  flex: 1;
+  height: 4px;
+  border-radius: var(--radius-full);
+  transition: background 0.3s ease;
+}
+
+.pw-strength-label {
+  font-size: 11px;
+  font-weight: 600;
+  min-width: 40px;
+  text-align: right;
+  transition: color 0.3s ease;
+}
+
+/* ── Valid field state ─────────────────────────────────────── */
+.input-field.is-valid {
+  border-color: var(--success);
+}
+.input-field.is-valid:focus {
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
+}
+
+/* ── Success message ───────────────────────────────────────── */
+.input-success-msg {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--success);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ── Server error banner (re-used from Login) ──────────────── */
+.server-error-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: var(--error-container);
+  color: var(--on-error-container);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.45;
+  margin-bottom: 4px;
+}
+.server-error-banner svg { flex-shrink: 0; margin-top: 1px; }
+
+/* ── Footer links ──────────────────────────────────────────── */
+.signup-login-row {
+  text-align: center;
+  color: var(--on-surface-variant);
+  margin-top: 4px;
+}
+
+/* ── Success screen ────────────────────────────────────────── */
+.signup-success {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 16px;
+  padding: var(--sp-xl) 0;
+}
+
+.signup-success-icon {
+  width: 96px;
+  height: 96px;
+  background: rgba(34, 197, 94, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  animation: popIn 0.4s cubic-bezier(.34,1.56,.64,1) forwards;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.5); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+.signup-success h1 { color: var(--on-surface); }
+
+.signup-success-sub {
+  color: var(--on-surface-variant);
+  max-width: 280px;
+  line-height: 1.6;
+}
+
+.signup-resend {
+  color: var(--on-surface-variant);
+  margin-top: 4px;
+}
+
+/* ── Spinner (shared with Login) ───────────────────────────── */
+.login-spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2.5px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Bottom gradient ───────────────────────────────────────── */
+.signup-page::after {
+  content: '';
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 430px;
+  height: 180px;
+  background: radial-gradient(ellipse at 50% 120%, rgba(37,99,235,.07) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}

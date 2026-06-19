@@ -1,0 +1,119 @@
+/* ── LoginPage scoped styles ─────────────────────────────── */
+
+/* Server error banner */
+.server-error-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: var(--error-container);
+  color: var(--on-error-container);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.45;
+  margin-bottom: -4px;
+}
+.server-error-banner svg { flex-shrink: 0; margin-top: 1px; }
+
+.login-page {
+  display: flex;
+  flex-direction: column;
+  padding: 52px var(--container-margin) 40px;
+  min-height: 100dvh;
+  background: var(--surface-container-lowest);
+  gap: 0;
+}
+
+/* ── Brand ─────────────────────────────────────────────────── */
+.login-brand {
+  margin-bottom: 36px;
+}
+
+.brand-logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary-container);
+  letter-spacing: -0.02em;
+}
+
+/* ── Heading ───────────────────────────────────────────────── */
+.login-heading {
+  margin-bottom: 32px;
+}
+
+.login-heading h1 {
+  color: var(--on-surface);
+  margin-bottom: 6px;
+}
+
+.login-sub {
+  color: var(--on-surface-variant);
+  max-width: 280px;
+  line-height: 1.55;
+}
+
+/* ── Form ──────────────────────────────────────────────────── */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── Forgot password ───────────────────────────────────────── */
+.login-forgot {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -8px;
+}
+
+/* ── Spinner ───────────────────────────────────────────────── */
+.login-spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2.5px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Sign up row ───────────────────────────────────────────── */
+.login-signup-row {
+  text-align: center;
+  color: var(--on-surface-variant);
+  margin-top: 4px;
+}
+
+/* ── Terms ─────────────────────────────────────────────────── */
+.login-terms {
+  text-align: center;
+  color: var(--outline);
+  margin-top: 8px;
+  line-height: 1.6;
+}
+
+/* ── Bottom decorative gradient ────────────────────────────── */
+.login-page::after {
+  content: '';
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 430px;
+  height: 220px;
+  background: radial-gradient(ellipse at 50% 120%, rgba(37, 99, 235, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
