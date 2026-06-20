@@ -48,3 +48,61 @@ export async function updateProfile(userId, updates) {
     .single()
   return { data, error }
 }
+
+export async function fetchAdminProducts() {
+  const { data, error } = await supabase
+    .from('products')
+    .select('*')
+    .order('created_at', { ascending: false })
+  return { data, error }
+}
+
+export async function saveProduct(payload) {
+  if (payload.id) {
+    const { data, error } = await supabase
+      .from('products')
+      .update({
+        name: payload.name,
+        description: payload.description,
+        daily_price: payload.daily_price,
+        total_quantity: payload.total_quantity,
+        available_quantity: payload.available_quantity,
+        pickup_location: payload.pickup_location,
+        image_url: payload.image_url,
+        is_active: payload.is_active,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', payload.id)
+      .select()
+      .single()
+    return { data, error }
+  }
+
+  const { data, error } = await supabase
+    .from('products')
+    .insert([
+      {
+        name: payload.name,
+        description: payload.description,
+        daily_price: payload.daily_price,
+        total_quantity: payload.total_quantity,
+        available_quantity: payload.available_quantity,
+        pickup_location: payload.pickup_location,
+        image_url: payload.image_url,
+        is_active: payload.is_active,
+      },
+    ])
+    .select()
+    .single()
+  return { data, error }
+}
+
+export async function toggleProductStatus(productId, isActive) {
+  const { data, error } = await supabase
+    .from('products')
+    .update({ is_active: isActive, updated_at: new Date().toISOString() })
+    .eq('id', productId)
+    .select()
+    .single()
+  return { data, error }
+}

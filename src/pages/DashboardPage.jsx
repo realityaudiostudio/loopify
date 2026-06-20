@@ -4,7 +4,7 @@ import {
   Bell, Search, SlidersHorizontal,
   ShoppingBag, AlignJustify, Monitor,
   ReceiptText, Wallet, Tag,
-  ChevronRight, MapPin, Plus,
+  ChevronRight, MapPin, Plus, ShieldCheck,
 } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import { useWallet } from '../context/WalletContext'
@@ -37,7 +37,7 @@ const QUICK_ACTIONS = [
 
 export default function DashboardPage() {
   const navigate = useNavigate()
-  const { user, profile } = useAuth()
+  const { user, profile, isAdmin } = useAuth()
   const { balance: walletBalance, rewardPoints } = useWallet()
 
   const [products, setProducts]           = useState(FALLBACK_PRODUCTS)
@@ -143,6 +143,16 @@ export default function DashboardPage() {
             <p className="db-greet-name">{fullName}</p>
           </div>
         </div>
+        {isAdmin && (
+          <button
+            className="db-admin-btn"
+            onClick={() => navigate('/admin')}
+            aria-label="Open admin portal"
+          >
+            <ShieldCheck size={18} />
+            Admin
+          </button>
+        )}
         <button
           className="db-notif-btn"
           aria-label={`${notifCount} notifications`}

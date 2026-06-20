@@ -3,6 +3,7 @@ import { supabase } from '../lib/supabase'
 import { fetchProfile } from '../lib/auth'
 
 const AuthContext = createContext(null)
+const ALLOWED_ADMIN_EMAIL = 'onlinefacultystaff@gmail.com'
 
 export function AuthProvider({ children }) {
   const [user, setUser]       = useState(null)
@@ -13,18 +14,26 @@ export function AuthProvider({ children }) {
   const loadProfile = async (userId) => {
     const { data } = await fetchProfile(userId)
     setProfile(data ?? null)
+    return data
   }
 
   useEffect(() => {
-    // Get the initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    let mounted = true
+
+    async function initSession() {
+      setLoading(true)
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!mounted) return
       setSession(session)
       setUser(session?.user ?? null)
-      if (session?.user) loadProfile(session.user.id)
+      if (session?.user) {
+        await loadProfile(session.user.id)
+      }
       setLoading(false)
-    })
+    }
 
-    // Listen for auth events (login, logout, token refresh)
+    initSession()
+
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -37,14 +46,24 @@ export function AuthProvider({ children }) {
       }
     })
 
-    return () => subscription.unsubscribe()
+    return () => {
+      mounted = false
+      subscription.unsubscribe()
+    }
   }, [])
+
+  const isAdmin = Boolean(
+    profile?.role === 'admin' ||
+    profile?.college_email?.toLowerCase() === ALLOWED_ADMIN_EMAIL ||
+    user?.email?.toLowerCase() === ALLOWED_ADMIN_EMAIL
+  )
 
   const value = {
     user,
     profile,
     session,
     loading,
+    isAdmin,
     refreshProfile: () => user && loadProfile(user.id),
   }
 

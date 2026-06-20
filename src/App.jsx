@@ -1,11 +1,13 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { useAuth } from './context/AuthContext'
 import ProtectedRoute from './components/ProtectedRoute'
+import AdminRoute from './components/AdminRoute'
 
 /* Pages */
 import LoginPage           from './pages/LoginPage'
 import SignupPage          from './pages/SignupPage'
 import DashboardPage       from './pages/DashboardPage'
+import AdminDashboardPage  from './pages/AdminDashboardPage'
 import ProfilePage         from './pages/ProfilePage'
 import ProductDetailPage   from './pages/ProductDetailPage'
 import RentNowPage         from './pages/RentNowPage'
@@ -40,6 +42,10 @@ export default function App() {
           <Route
             path="/dashboard"
             element={<ProtectedRoute><DashboardPage /></ProtectedRoute>}
+          />
+          <Route
+            path="/admin"
+            element={<AdminRoute><AdminDashboardPage /></AdminRoute>}
           />
           <Route
             path="/rentals"
