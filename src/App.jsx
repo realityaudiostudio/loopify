@@ -10,6 +10,7 @@ import DashboardPage       from './pages/DashboardPage'
 import AdminDashboardPage  from './pages/AdminDashboardPage'
 import ProfilePage         from './pages/ProfilePage'
 import ProductDetailPage   from './pages/ProductDetailPage'
+import ProductsPage        from './pages/ProductsPage'
 import RentNowPage         from './pages/RentNowPage'
 import RentalsPage         from './pages/RentalsPage'
 import WalletPage          from './pages/WalletPage'
@@ -69,7 +70,7 @@ export default function App() {
           />
           <Route
             path="/products"
-            element={<ProtectedRoute><PlaceholderPage title="Products" /></ProtectedRoute>}
+            element={<ProtectedRoute><ProductsPage /></ProtectedRoute>}
           />
           <Route
             path="/products/:id"

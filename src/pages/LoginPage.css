@@ -66,6 +66,41 @@
   gap: 20px;
 }
 
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 14px;
+  display: flex;
+  align-items: center;
+  color: var(--outline);
+  pointer-events: none;
+}
+
+.input-field {
+  padding-left: 52px;
+}
+
+.input-action {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  padding: 4px;
+  color: var(--outline);
+  cursor: pointer;
+}
+
+.input-field.has-action {
+  padding-right: 52px;
+}
+
 /* ── Forgot password ───────────────────────────────────────── */
 .login-forgot {
   display: flex;

@@ -435,3 +435,17 @@
   border-radius: var(--radius-md); font-size: 12px; color: #15803d; font-weight: 500;
 }
 .wl-modal-success .btn-primary { width: 100%; margin-top: 8px; }
+
+/* withdraw modal support */
+.wl-modal-balance {
+  margin-bottom: 12px;
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--on-surface);
+}
+.wl-withdraw-note {
+  font-size: 13px;
+  color: var(--on-surface-variant);
+  margin-top: 12px;
+  line-height: 1.6;
+}
