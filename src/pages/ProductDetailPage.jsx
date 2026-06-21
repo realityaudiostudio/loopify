@@ -23,12 +23,6 @@ export default function ProductDetailPage() {
   const [imgError,  setImgError]  = useState(false)
 
   /* ── Fetch product from Supabase ───────────────────────────── */
-  useEffect(() => {
-    if (!id) return
-    fetchProduct()
-    checkWishlist()
-  }, [id])
-
   async function fetchProduct() {
     setLoading(true)
     setError(null)
@@ -56,7 +50,10 @@ export default function ProductDetailPage() {
     if (err || !data) {
       setError('Product not found or has been removed.')
     } else {
-      setProduct({ ...data, category: data.categories?.name ?? '' })
+      const categoryName = Array.isArray(data.categories)
+        ? data.categories[0]?.name
+        : data.categories?.name
+      setProduct({ ...data, category: categoryName ?? '' })
     }
     setLoading(false)
   }
@@ -71,6 +68,12 @@ export default function ProductDetailPage() {
       .single()
     setWishlisted(!!data)
   }
+
+  useEffect(() => {
+    if (!id) return
+    fetchProduct()
+    checkWishlist()
+  }, [id, user])
 
   async function toggleWishlist() {
     if (!user) { navigate('/login'); return }

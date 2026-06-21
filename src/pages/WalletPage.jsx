@@ -68,12 +68,13 @@ export default function WalletPage() {
     wallet, balance, rewardPoints,
     transactions, loading, txnLoading,
     fetchWallet, fetchTransactions,
-    topupWallet,
+    topupWallet, deductFromWallet,
   } = useWallet()
 
-  const [txnTab,       setTxnTab]       = useState('all')
+  const [txnTab,        setTxnTab]        = useState('all')
   const [balanceHidden, setBalanceHidden] = useState(false)
-  const [showTopup,    setShowTopup]    = useState(false)
+  const [showTopup,     setShowTopup]     = useState(false)
+  const [showWithdraw,  setShowWithdraw]  = useState(false)
 
   /* ── Refresh ────────────────────────────────────────────────── */
   const handleRefresh = () => {
@@ -161,7 +162,7 @@ export default function WalletPage() {
                 <Plus size={16} strokeWidth={2.5}/>
                 Add Money
               </button>
-              <button className="wl-withdraw-btn" onClick={() => {}}>
+              <button className="wl-withdraw-btn" onClick={() => setShowWithdraw(true)}>
                 <ArrowUpRight size={16}/>
                 Withdraw
               </button>
@@ -244,7 +245,93 @@ export default function WalletPage() {
           topupWallet={topupWallet}
         />
       )}
+      {showWithdraw && (
+        <WithdrawModal
+          onClose={() => setShowWithdraw(false)}
+          onSuccess={() => { setShowWithdraw(false); handleRefresh() }}
+          balance={balance}
+          deductFromWallet={deductFromWallet}
+        />
+      )}
     </div>
+  )
+}
+
+/* ── Withdraw Modal ─────────────────────────────────────────── */
+function WithdrawModal({ onClose, onSuccess, balance, deductFromWallet }) {
+  const [amount, setAmount] = useState('')
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+  const numAmount = parseFloat(amount) || 0
+  const isValid = numAmount >= 10 && numAmount <= balance
+
+  async function handleWithdraw() {
+    if (!isValid) {
+      setError(balance <= 0 ? 'No available balance to withdraw.' : 'Enter a valid amount within your balance.')
+      return
+    }
+    setError('')
+    setLoading(true)
+    const { error: withdrawError } = await deductFromWallet({
+      amount: numAmount,
+      description: 'Withdrawn from wallet',
+      txn_type: 'transfer_out',
+      ref_id: null,
+    })
+    setLoading(false)
+    if (withdrawError) {
+      setError(withdrawError)
+      return
+    }
+    onSuccess()
+  }
+
+  return (
+    <>
+      <div className="wl-modal-backdrop" onClick={onClose}/>
+      <div className="wl-modal wl-withdraw-modal">
+        <div className="wl-modal-handle"/>
+        <div className="wl-modal-header">
+          <h3 className="wl-modal-title">Withdraw Funds</h3>
+          <button className="wl-modal-close" onClick={onClose}><X size={20}/></button>
+        </div>
+        <div className="wl-modal-body">
+          <p className="wl-modal-section-label">Available balance</p>
+          <div className="wl-modal-balance">₹{balance.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</div>
+
+          <div className="wl-topup-custom">
+            <span className="wl-topup-rs">₹</span>
+            <input
+              type="number"
+              className="wl-topup-input"
+              placeholder="Enter withdraw amount"
+              min={10}
+              max={balance}
+              value={amount}
+              onChange={(e) => { setAmount(e.target.value); setError('') }}
+            />
+          </div>
+
+          {error && (
+            <div className="wl-modal-err">
+              <AlertCircle size={14}/> {error}
+            </div>
+          )}
+
+          <button
+            className="btn-primary"
+            disabled={!isValid || loading}
+            onClick={handleWithdraw}
+          >
+            {loading ? 'Processing…' : `Withdraw ₹${numAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`}
+          </button>
+
+          <p className="wl-withdraw-note">
+            Withdrawals are simulated in this demo app. Your balance will be reduced immediately.
+          </p>
+        </div>
+      </div>
+    </>
   )
 }
 

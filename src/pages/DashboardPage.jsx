@@ -69,7 +69,9 @@ export default function DashboardPage() {
     if (!error && data?.length) {
       setProducts(data.map((p) => ({
         ...p,
-        category: p.categories?.name ?? '',
+        category: Array.isArray(p.categories)
+          ? p.categories[0]?.name ?? ''
+          : p.categories?.name ?? '',
         emoji: null,
       })))
     }
